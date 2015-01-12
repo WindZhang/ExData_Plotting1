@@ -1,3 +1,12 @@
+# Load the file to the memory
+xhousehold_power_consumption <- read.table("~/household_power_consumption.txt", header = TRUE, sep=";", quote="\"")
+# subset only two days as needed
+x <- subset (xhousehold_power_consumption, Date == "2/2/2007" | Date == "1/2/2007")
+# convert the factor format to the csv
+write.csv(x, "~/power_2007_Feb_1_and_2.csv")
+# load the csv file into memory
+power <- read.csv("~/power_2007_Feb_1_and_2.csv")
+
 png("plot3.png")
 plot(1:length(power$Global_active_power), power$Sub_metering_1, type = "s", xaxt ="n", ylab = "Energy sub metering", xlab = "")
 lines(1:length(power$Global_active_power), power$Sub_metering_2, col = "red")
