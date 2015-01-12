@@ -1,0 +1,7 @@
+png("plot3.png")
+plot(1:length(power$Global_active_power), power$Sub_metering_1, type = "s", xaxt ="n", ylab = "Energy sub metering", xlab = "")
+lines(1:length(power$Global_active_power), power$Sub_metering_2, col = "red")
+lines(1:length(power$Global_active_power), power$Sub_metering_3, col = "blue")
+axis (1, at = c(0,1440,2880) , labels = c("Thu", "Fri", "Sat"))
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = c(1, 1,1), col=c ("black", "red", "blue"))
+dev.off()
