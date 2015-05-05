@@ -2,7 +2,7 @@
 # power.txt. Copied the power.tat to F:/Rprog
 # setwd F:/Rprog
 # Load the file to the memory
-rawData <- read.csv("power.txt", header = TRUE, sep = ";") 
+rawData <- read.csv("power.txt", header = TRUE, sep = ";", stringsAsFactors = FALSE)
 # subset only two days as needed
 twoDays <- subset(rawData, Date == "2/2/2007" | Date == "1/2/2007")
 
