@@ -1,17 +1,15 @@
-
+# Dowload the file into my local computer F:/Rprog, unzip the rename the file as
+# power.txt. Copied the power.tat to F:/Rprog
+# setwd F:/Rprog
 # Load the file to the memory
-xhousehold_power_consumption <- read.table("~/household_power_consumption.txt", header = TRUE, sep=";", quote="\"")
+rawData <- read.csv("power.txt", header = TRUE, sep = ";") 
 # subset only two days as needed
-x <- subset (xhousehold_power_consumption, Date == "2/2/2007" | Date == "1/2/2007")
-# convert the factor format to the csv
-write.csv(x, "~/power_2007_Feb_1_and_2.csv")
-# load the csv file into memory
-power <- read.csv("~/power_2007_Feb_1_and_2.csv")
+twoDays <- subset(rawData, Date == "2/2/2007" | Date == "1/2/2007")
 
 # plot the historam 
 
-png("plot1.png")
+png("plot1.png", width = 480, height = 480)
 
-hist(power$Global_active_power, main="Global Active Power", xlab = "Global active power(Kilowatts)", col = "Red")
+hist(as.numeric(twoDays$Global_active_power), main="Global Active Power", xlab = "Global active power(Kilowatts)", col = "Red")
 
 dev.off()
