@@ -1,34 +1,40 @@
+# Dowload the file into my local computer F:/Rprog, unzip the rename the file as
+# power.txt. Copied the power.tat to F:/Rprog
+# setwd F:/Rprog
 # Load the file to the memory
-xhousehold_power_consumption <- read.table("~/household_power_consumption.txt", header = TRUE, sep=";", quote="\"")
+rawData <- read.csv("power.txt", header = TRUE, sep = ";", stringsAsFactors = FALSE)
 # subset only two days as needed
-x <- subset (xhousehold_power_consumption, Date == "2/2/2007" | Date == "1/2/2007")
-# convert the factor format to the csv
-write.csv(x, "~/power_2007_Feb_1_and_2.csv")
-# load the csv file into memory
-power <- read.csv("~/power_2007_Feb_1_and_2.csv")
+twoDays <- subset(rawData, Date == "2/2/2007" | Date == "1/2/2007")
+twoDays <- transform(twoDays, Date = weekdays(as.Date(Date, "%d/%m/%Y"), abbreviate = TRUE))
+active <- as.ts(twoDays$Global_active_power)
+voltage <- as.ts(twoDays$Voltage)
+sub_1 <- as.ts(twoDays$Sub_metering_1)
+sub_2 <- as.ts(twoDays$Sub_metering_2)
+sub_3 <- as.ts(twoDays$Sub_metering_3)
+reactive <- as.ts(twoDays$Global_reactive_power)
 
-png("plot4.png")
+png("plot4.png", width = 480, height = 480)
 par (mfrow = c(2, 2))
 
 #Plot Global active power
-plot(1:length(power$Global_active_power), power$Global_active_power, type = "s", xaxt ="n", ylab = "Global Active Power", xlab = "")
+plot(active, type = "s", xaxt ="n", ylab = "Global Active Power", xlab = "")
 axis (1, at = c(0,1440,2880) , labels = c("Thu", "Fri", "Sat"))
 
 #Plot Voltage
-plot(1:length(power$Voltage), power$Voltage, type = "s", xaxt ="n", ylab = "Voltage", xlab = "datetime")
+plot(voltage, type = "s", xaxt ="n", ylab = "Voltage", xlab = "datetime")
 axis (1, at = c(0,1440,2880) , labels = c("Thu", "Fri", "Sat"))
 
 #Plot Sub_metering
 
-plot(1:length(power$Sub_metering_1), power$Sub_metering_1, type = "s", xaxt ="n", ylab = "Energy sub metering", xlab = "")
-lines(1:length(power$Sub_metering_2), power$Sub_metering_2, col = "red")
-lines(1:length(power$Sub_metering_3), power$Sub_metering_3, col = "blue")
+plot(sub_1, type = "s", xaxt ="n", ylab = "Energy sub metering", xlab = "")
+lines(sub_2, col = "red")
+lines(sub_3, col = "blue")
 
 axis (1, at = c(0,1440,2880) , labels = c("Thu", "Fri", "Sat"))
 legend( "topright",c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = c(1, 1,1), col=c ("black", "red", "blue"), cex =1, bty = "n")
 
 #Plot Global_reacive_power
-plot(1:length(power$Global_reactive_power), power$Global_reactive_power, type = "s", xaxt ="n", ylab = "Global_reactive_power", xlab = "datetime")
+plot(reactive, type = "s", xaxt ="n", ylab = "Global_reactive_power", xlab = "datetime")
 axis (1, at = c(0,1440,2880) , labels = c("Thu", "Fri", "Sat"))
 
 dev.off()
