@@ -9,7 +9,7 @@ twoDays <- transform(twoDays, Date = weekdays(as.Date(Date, "%d/%m/%Y"), abbrevi
 sub_1 <- as.ts(twoDays$Sub_metering_1)
 sub_2 <- as.ts(twoDays$Sub_metering_2)
 sub_3 <- as.ts(twoDays$Sub_metering_3)
-png("plot3.png")
+png("plot3.png", width = 480, height = 480)
 plot(sub_1, type = "s", xaxt ="n", ylab = "Energy sub metering", xlab = "")
 lines(sub_2, col = "red")
 lines(sub_3, col = "blue")
